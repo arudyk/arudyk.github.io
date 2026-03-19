@@ -198,6 +198,7 @@
 </span></span></code></pre></div><p>Two lines of code after half an hour of head-scratching.</p>
 <hr>
 <h2 id="the-web-ui">The Web UI</h2>
+<p><img alt="Sentinel web UI demo" src="/img/sentinel-demo.gif"></p>
 <p>The web interface is plain HTML/CSS/JS — no build step, no framework, no npm. It loads instantly even on slow connections. The controls use <code>pointerdown</code>/<code>pointerup</code> events so it works on both desktop and mobile with the same code.</p>
 <p>The camera stream is just an <code>&lt;img&gt;</code> tag pointing at <code>/stream</code>. When it errors out (robot goes out of WiFi range, Pi reboots) it automatically reconnects after 2 seconds:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">streamImg</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;error&#34;</span>, () =&gt; {
