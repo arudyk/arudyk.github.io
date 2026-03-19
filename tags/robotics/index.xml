@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Robotics on Andriy Rudyk</title>
+    <link>/tags/robotics/</link>
+    <description>Recent content in Robotics on Andriy Rudyk</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by-nc/4.0/&#39;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Thu, 19 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/robotics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building Sentinel: A Home Sentry Robot with Raspberry Pi and Home Assistant</title>
+      <link>/posts/building-sentinel-home-robot/</link>
+      <pubDate>Thu, 19 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>/posts/building-sentinel-home-robot/</guid>
+      <description>A few months ago I had this itch I couldn&amp;rsquo;t quite scratch — I wanted a way to check in on my house remotely — specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don&amp;rsquo;t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed.</description>
+    </item>
+  </channel>
+</rss>
