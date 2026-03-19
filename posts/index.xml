@@ -273,8 +273,8 @@
 </span></span></code></pre></div><p>For the HA integration, it&rsquo;s deployed from a separate <a href="https://github.com/arudyk/argon">home server repo</a> that clones the latest sentinel at deploy time and rsyncs the HA files into place.</p>
 <hr>
 <h2 id="what-id-do-differently">What I&rsquo;d Do Differently</h2>
-<p><strong>Proper cable management.</strong> The jumper wires work fine but they&rsquo;re a mess. At some point I want to do a proper PCB or at least use a Pi HAT that exposes screw terminals cleanly.</p>
-<p><strong>Longer ribbon cable from the start.</strong> The 30 cm ArduCam cable is fine but routing it cleanly while also allowing full pan-tilt range was more fiddly than expected.</p>
+<p><strong>Better cable management.</strong> Individual jumper wires get messy fast. A cleaner solution would be a connected ribbon cable that bundles everything together rather than a rats&rsquo; nest of loose wires.</p>
+<p><strong>Mount the Pi outside the chassis.</strong> I originally had the Pi Zero tucked inside the metal chassis — and the WiFi signal was terrible. Latency spiked, the stream stuttered, commands were sluggish. Mounting the Pi on top of the chassis fixed it immediately. A metal enclosure is basically a Faraday cage, and the Zero&rsquo;s tiny onboard antenna doesn&rsquo;t stand a chance inside one.</p>
 <p><strong>Authentication on the web API.</strong> The <code>/command</code> endpoint has no auth, but since access is gated through Home Assistant (which handles its own auth), I&rsquo;m not worried about it. Direct Pi access is LAN-only anyway.</p>
 <hr>
 <h2 id="whats-next">What&rsquo;s Next</h2>
