@@ -47,7 +47,7 @@
   <meta itemprop="description" content="A few months ago I had this itch I couldn’t quite scratch — I wanted a way to check in on my house remotely — specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don’t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed.">
   <meta itemprop="datePublished" content="2026-03-19T00:00:00+00:00">
   <meta itemprop="dateModified" content="2026-03-19T00:00:00+00:00">
-  <meta itemprop="wordCount" content="2069">
+  <meta itemprop="wordCount" content="2145">
   <meta itemprop="image" content="/">
   <meta itemprop="keywords" content="Raspberry-Pi,Home-Assistant,Robotics,Hardware">
 
@@ -434,6 +434,7 @@
 <h2 id="what-id-do-differently">What I&rsquo;d Do Differently</h2>
 <p><strong>Better cable management.</strong> Individual jumper wires get messy fast. A cleaner solution would be a connected ribbon cable that bundles everything together rather than a rats&rsquo; nest of loose wires.</p>
 <p><strong>Mount the Pi outside the chassis.</strong> I originally had the Pi Zero tucked inside the metal chassis — and the WiFi signal was terrible. Latency spiked, the stream stuttered, commands were sluggish. Mounting the Pi on top of the chassis fixed it immediately. A metal enclosure is basically a Faraday cage, and the Zero&rsquo;s tiny onboard antenna doesn&rsquo;t stand a chance inside one.</p>
+<p><strong>Arrow keys instead of WASD.</strong> I originally mapped WASD to drive controls, which worked great in the standalone web app. Then I added the HA Lovelace card and discovered that WASD are global shortcuts in Home Assistant — W opens the search bar, and the others do their own things. Switching the primary controls to arrow keys fixed the conflict. WASD still works in the standalone web app since there&rsquo;s no HA shell to collide with.</p>
 <p><strong>Authentication on the web API.</strong> The <code>/command</code> endpoint has no auth, but since access is gated through Home Assistant (which handles its own auth), I&rsquo;m not worried about it. Direct Pi access is LAN-only anyway.</p>
 <hr>
 <h2 id="whats-next">What&rsquo;s Next</h2>
@@ -474,7 +475,7 @@
             <line x1="16" y1="17" x2="8" y2="17"></line>
             <polyline points="10 9 9 9 8 9"></polyline>
           </svg>
-          2069 Words
+          2145 Words
         </p>
 
         <p>

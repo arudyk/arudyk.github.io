@@ -275,6 +275,7 @@
 <h2 id="what-id-do-differently">What I&rsquo;d Do Differently</h2>
 <p><strong>Better cable management.</strong> Individual jumper wires get messy fast. A cleaner solution would be a connected ribbon cable that bundles everything together rather than a rats&rsquo; nest of loose wires.</p>
 <p><strong>Mount the Pi outside the chassis.</strong> I originally had the Pi Zero tucked inside the metal chassis — and the WiFi signal was terrible. Latency spiked, the stream stuttered, commands were sluggish. Mounting the Pi on top of the chassis fixed it immediately. A metal enclosure is basically a Faraday cage, and the Zero&rsquo;s tiny onboard antenna doesn&rsquo;t stand a chance inside one.</p>
+<p><strong>Arrow keys instead of WASD.</strong> I originally mapped WASD to drive controls, which worked great in the standalone web app. Then I added the HA Lovelace card and discovered that WASD are global shortcuts in Home Assistant — W opens the search bar, and the others do their own things. Switching the primary controls to arrow keys fixed the conflict. WASD still works in the standalone web app since there&rsquo;s no HA shell to collide with.</p>
 <p><strong>Authentication on the web API.</strong> The <code>/command</code> endpoint has no auth, but since access is gated through Home Assistant (which handles its own auth), I&rsquo;m not worried about it. Direct Pi access is LAN-only anyway.</p>
 <hr>
 <h2 id="whats-next">What&rsquo;s Next</h2>
