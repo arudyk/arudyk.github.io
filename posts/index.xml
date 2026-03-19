@@ -258,8 +258,7 @@
 <p>The custom Lovelace card is a Web Component that renders the camera stream, pan-tilt overlay arrows, drive D-pad, and speed slider all in one:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">custom:sentinel-card</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">entity_prefix</span>: <span style="color:#ae81ff">sentinel</span>
-</span></span></code></pre></div><p><img alt="Sentinel HA card" src="../../docs/ha-card-screenshot.png"></p>
-<p><img alt="Sentinel HA mobile" src="../../docs/ha-mobile-screenshot.png"></p>
+</span></span></code></pre></div><p><img alt="Sentinel HA mobile" src="/img/sentinel-ha-mobile.png"></p>
 <p>The card uses HA&rsquo;s <code>callService</code> API to trigger drive buttons and set number entities for speed and pan/tilt. One thing worth noting: HA&rsquo;s camera entities rotate their <code>access_token</code> on restart, so the card watches for token changes in <code>_update()</code> and refreshes the stream URL automatically.</p>
 <hr>
 <h2 id="deployment">Deployment</h2>
