@@ -6,8 +6,11 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by-nc/4.0/&#39;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Thu, 19 Mar 2026 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Wed, 22 Apr 2026 19:14:36 -0400</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
         
         <item>
             <title>Building Sentinel: A Home Sentry Robot with Raspberry Pi and Home Assistant</title>
@@ -290,6 +293,7 @@
 <p>Source: <strong><a href="https://github.com/arudyk/sentinel">github.com/arudyk/sentinel</a></strong></p>
 ]]></content>
         </item>
+        
         
     </channel>
 </rss>
