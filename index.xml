@@ -7,15 +7,8 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by-nc/4.0/&#39;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 22 Apr 2026 19:14:36 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 19 Mar 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>My Secret Post</title>
-      <link>/posts/my-secret-post/</link>
-      <pubDate>Wed, 22 Apr 2026 19:14:36 -0400</pubDate>
-      <guid>/posts/my-secret-post/</guid>
-      <description>This should not be readable without knowing the password</description>
-    </item>
     <item>
       <title>Building Sentinel: A Home Sentry Robot with Raspberry Pi and Home Assistant</title>
       <link>/posts/building-sentinel-home-robot/</link>

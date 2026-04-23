@@ -3,19 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2026-04-22T19:14:36-04:00</lastmod>
-  </url><url>
-    <loc>/posts/my-secret-post/</loc>
-    <lastmod>2026-04-22T19:14:36-04:00</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2026-04-22T19:14:36-04:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2026-04-22T19:14:36-04:00</lastmod>
-  </url><url>
-    <loc>/tags/untagged/</loc>
-    <lastmod>2026-04-22T19:14:36-04:00</lastmod>
+    <lastmod>2026-03-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/building-sentinel-home-robot/</loc>
     <lastmod>2026-03-19T00:00:00+00:00</lastmod>
@@ -26,10 +14,16 @@
     <loc>/tags/home-assistant/</loc>
     <lastmod>2026-03-19T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2026-03-19T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/tags/raspberry-pi/</loc>
     <lastmod>2026-03-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/robotics/</loc>
+    <lastmod>2026-03-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
     <lastmod>2026-03-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/categories/</loc>
