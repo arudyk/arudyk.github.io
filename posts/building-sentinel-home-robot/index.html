@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="A few months ago I had this itch I couldn&amp;rsquo;t quite scratch — I wanted a way to check in on my house remotely — specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don&amp;rsquo;t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed." />
+<meta name="description" content="A few months ago I had this itch I couldn&amp;rsquo;t quite scratch: I wanted a way to check in on my house remotely - specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don&amp;rsquo;t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed." />
 <meta name="keywords" content="Andry Rudyk, raspberry-pi, home-assistant, robotics, hardware" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -44,17 +44,17 @@
 
 
   <meta itemprop="name" content="Building Sentinel: A Home Sentry Robot with Raspberry Pi and Home Assistant">
-  <meta itemprop="description" content="A few months ago I had this itch I couldn’t quite scratch — I wanted a way to check in on my house remotely — specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don’t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed.">
+  <meta itemprop="description" content="A few months ago I had this itch I couldn’t quite scratch: I wanted a way to check in on my house remotely - specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don’t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed.">
   <meta itemprop="datePublished" content="2026-03-19T00:00:00+00:00">
   <meta itemprop="dateModified" content="2026-03-19T00:00:00+00:00">
-  <meta itemprop="wordCount" content="2145">
+  <meta itemprop="wordCount" content="2144">
   <meta itemprop="image" content="/">
   <meta itemprop="keywords" content="Raspberry-Pi,Home-Assistant,Robotics,Hardware">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="/">
   <meta name="twitter:title" content="Building Sentinel: A Home Sentry Robot with Raspberry Pi and Home Assistant">
-  <meta name="twitter:description" content="A few months ago I had this itch I couldn’t quite scratch — I wanted a way to check in on my house remotely — specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don’t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed.">
+  <meta name="twitter:description" content="A few months ago I had this itch I couldn’t quite scratch: I wanted a way to check in on my house remotely - specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don’t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed.">
 
 
 
@@ -175,7 +175,7 @@
         
 
         <div class="post-content">
-          <p>A few months ago I had this itch I couldn&rsquo;t quite scratch — I wanted a way to check in on my house remotely — specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don&rsquo;t stay in one spot. I wanted something that could <em>move</em>. Something I could drive around from my phone and point the camera wherever I needed. I&rsquo;d been messing around with Home Assistant for a while and thought: why not make this a full HA-integrated device?</p>
+          <p>A few months ago I had this itch I couldn&rsquo;t quite scratch: I wanted a way to check in on my house remotely - specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don&rsquo;t stay in one spot. I wanted something that could <em>move</em>. Something I could drive around from my phone and point the camera wherever I needed. I&rsquo;d been messing around with Home Assistant for a while and thought: why not make this a full HA-integrated device?</p>
 <p>That&rsquo;s how <strong>Sentinel</strong> was born. It&rsquo;s a tracked robot running on a Raspberry Pi Zero 2 W, with a pan-tilt camera, controlled entirely through Home Assistant. Here&rsquo;s how I built it, what went wrong, and how it all fits together.</p>
 <p>The full source is on GitHub: <strong><a href="https://github.com/arudyk/sentinel">github.com/arudyk/sentinel</a></strong></p>
 <p><img alt="Sentinel robot" src="/img/sentinel-robot.jpg"></p>
@@ -224,8 +224,8 @@
 </tr>
 </tbody>
 </table>
-<p>The tracked chassis was a natural choice — wheels would have needed a lot more mechanical work to avoid spinning in place. Tracks give you easy pivot turns just by driving one side forward and the other backward.</p>
-<p>The Pi Zero 2 W is surprisingly capable for this use case. It runs a full Linux stack, handles MJPEG video encoding, serves a Flask web app, and controls GPIO — all on a 512 MB quad-core ARM. The trick is keeping everything lean.</p>
+<p>The tracked chassis was a natural choice - wheels would have needed a lot more mechanical work to avoid spinning in place. Tracks give you easy pivot turns just by driving one side forward and the other backward.</p>
+<p>The Pi Zero 2 W is surprisingly capable for this use case. It runs a full Linux stack, handles MJPEG video encoding, serves a Flask web app, and controls GPIO - all on a 512 MB quad-core ARM. The trick is keeping everything lean.</p>
 <p>The PiSugar 3 is what makes the whole thing self-contained. It&rsquo;s a battery HAT that sits right under the Pi, handles charging over USB-C, and exposes battery percentage and voltage over I2C. It&rsquo;s genuinely one of the nicest accessories in the Pi ecosystem.</p>
 <hr>
 <h2 id="wiring-it-up">Wiring It Up</h2>
@@ -301,7 +301,7 @@
 </table>
 <hr>
 <h2 id="the-software-stack">The Software Stack</h2>
-<p>I went with <strong>Flask</strong> on the Pi — not FastAPI, not asyncio, just plain Flask. For a single-user robot controller it&rsquo;s more than sufficient, and MJPEG streaming is trivially simple with Flask&rsquo;s streaming responses. The whole server is maybe 150 lines.</p>
+<p>I went with <strong>Flask</strong> on the Pi - not FastAPI, not asyncio, just plain Flask. For a single-user robot controller it&rsquo;s more than sufficient, and MJPEG streaming is trivially simple with Flask&rsquo;s streaming responses. The whole server is maybe 150 lines.</p>
 <h3 id="motor-controller">Motor Controller</h3>
 <p>The motor controller wraps RPi.GPIO with a clean API and falls back to dry-run mode on a regular dev machine (it just logs to stdout instead of touching GPIO pins). This meant I could develop and test the entire web server without ever needing the Pi in the loop.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MotorController</span>:
@@ -320,7 +320,7 @@
 </span></span><span style="display:flex;"><span>        camera<span style="color:#f92672">.</span>generate(),
 </span></span><span style="display:flex;"><span>        mimetype<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;multipart/x-mixed-replace; boundary=frame&#34;</span>,
 </span></span><span style="display:flex;"><span>    )
-</span></span></code></pre></div><p>The <code>generate()</code> function is just a generator that yields JPEG frames with the right multipart headers. The browser&rsquo;s <code>&lt;img&gt;</code> tag handles everything else — no WebSocket, no WebRTC, just a good old MJPEG stream.</p>
+</span></span></code></pre></div><p>The <code>generate()</code> function is just a generator that yields JPEG frames with the right multipart headers. The browser&rsquo;s <code>&lt;img&gt;</code> tag handles everything else - no WebSocket, no WebRTC, just a good old MJPEG stream.</p>
 <h3 id="pan-tilt-pca9685-over-i2c">Pan-Tilt (PCA9685 over I2C)</h3>
 <p>This is where things got interesting. The ArduCam pan-tilt kit uses a PCA9685 16-channel PWM controller. Rather than pulling in the full Adafruit CircuitPython stack (which is overkill for two servo channels), I drove it directly over I2C with <code>smbus2</code>.</p>
 <p>The PCA9685 needs to be configured for 50 Hz PWM (standard servo frequency), then you write pulse width values to each channel:</p>
@@ -348,7 +348,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_angle_to_ticks</span>(angle: int) <span style="color:#f92672">-&gt;</span> int:
 </span></span><span style="display:flex;"><span>    pulse_us <span style="color:#f92672">=</span> _PULSE_MIN_US <span style="color:#f92672">+</span> (_PULSE_MAX_US <span style="color:#f92672">-</span> _PULSE_MIN_US) <span style="color:#f92672">*</span> angle <span style="color:#f92672">/</span> <span style="color:#ae81ff">180</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> round(pulse_us <span style="color:#f92672">/</span> _PERIOD_US <span style="color:#f92672">*</span> <span style="color:#ae81ff">4096</span>)
-</span></span></code></pre></div><p><strong>One gotcha that took me a while to figure out:</strong> when I first tested the pan-tilt, pressing right moved the camera up, pressing up moved it left — the axes were completely rotated. Turns out the physical servo connections were swapped: channel 0 was actually the tilt servo and channel 1 was pan. And because of how the servo was mounted, increasing the tilt angle moved the camera <em>up</em> (opposite to the intuitive convention). The fix was swapping the channels and inverting the tilt:</p>
+</span></span></code></pre></div><p><strong>One gotcha that took me a while to figure out:</strong> when I first tested the pan-tilt, pressing right moved the camera up, pressing up moved it left - the axes were completely rotated. Turns out the physical servo connections were swapped: channel 0 was actually the tilt servo and channel 1 was pan. And because of how the servo was mounted, increasing the tilt angle moved the camera <em>up</em> (opposite to the intuitive convention). The fix was swapping the channels and inverting the tilt:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pan</span>(self, angle: int) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
 </span></span><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>_write_servo(<span style="color:#ae81ff">1</span>, angle)  <span style="color:#75715e"># channel 1 = pan</span>
 </span></span><span style="display:flex;"><span>
@@ -358,7 +358,7 @@
 <hr>
 <h2 id="the-web-ui">The Web UI</h2>
 <p><img alt="Sentinel web UI demo" src="/img/sentinel-demo.gif"></p>
-<p>The web interface is plain HTML/CSS/JS — no build step, no framework, no npm. It loads instantly even on slow connections. The controls use <code>pointerdown</code>/<code>pointerup</code> events so it works on both desktop and mobile with the same code.</p>
+<p>The web interface is plain HTML/CSS/JS - no build step, no framework, no npm. It loads instantly even on slow connections. The controls use <code>pointerdown</code>/<code>pointerup</code> events so it works on both desktop and mobile with the same code.</p>
 <p>The camera stream is just an <code>&lt;img&gt;</code> tag pointing at <code>/stream</code>. When it errors out (robot goes out of WiFi range, Pi reboots) it automatically reconnects after 2 seconds:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">streamImg</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;error&#34;</span>, () =&gt; {
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setTimeout</span>(() =&gt; {
@@ -378,7 +378,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">btn</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;pointerup&#34;</span>, () =&gt; <span style="color:#a6e22e">clearInterval</span>(<span style="color:#a6e22e">timer</span>));
 </span></span></code></pre></div><hr>
 <h2 id="home-assistant-integration">Home Assistant Integration</h2>
-<p>This was the part I was most excited about. I wanted Sentinel to be a real HA device — not just a camera URL pasted into a generic card, but a proper integration with entities, a device page, and a custom Lovelace card.</p>
+<p>This was the part I was most excited about. I wanted Sentinel to be a real HA device - not just a camera URL pasted into a generic card, but a proper integration with entities, a device page, and a custom Lovelace card.</p>
 <h3 id="the-integration">The Integration</h3>
 <p>The integration is a standard HA custom component. It uses a <code>DataUpdateCoordinator</code> that polls <code>/status</code> every 5 seconds to keep all the entity states in sync:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SentinelCoordinator</span>(DataUpdateCoordinator):
@@ -433,17 +433,17 @@
 <hr>
 <h2 id="what-id-do-differently">What I&rsquo;d Do Differently</h2>
 <p><strong>Better cable management.</strong> Individual jumper wires get messy fast. A cleaner solution would be a connected ribbon cable that bundles everything together rather than a rats&rsquo; nest of loose wires.</p>
-<p><strong>Mount the Pi outside the chassis.</strong> I originally had the Pi Zero tucked inside the metal chassis — and the WiFi signal was terrible. Latency spiked, the stream stuttered, commands were sluggish. Mounting the Pi on top of the chassis fixed it immediately. A metal enclosure is basically a Faraday cage, and the Zero&rsquo;s tiny onboard antenna doesn&rsquo;t stand a chance inside one.</p>
-<p><strong>Arrow keys instead of WASD.</strong> I originally mapped WASD to drive controls, which worked great in the standalone web app. Then I added the HA Lovelace card and discovered that WASD are global shortcuts in Home Assistant — W opens the search bar, and the others do their own things. Switching the primary controls to arrow keys fixed the conflict. WASD still works in the standalone web app since there&rsquo;s no HA shell to collide with.</p>
+<p><strong>Mount the Pi outside the chassis.</strong> I originally had the Pi Zero tucked inside the metal chassis - and the WiFi signal was terrible. Latency spiked, the stream stuttered, commands were sluggish. Mounting the Pi on top of the chassis fixed it immediately. A metal enclosure is basically a Faraday cage, and the Zero&rsquo;s tiny onboard antenna doesn&rsquo;t stand a chance inside one.</p>
+<p><strong>Arrow keys instead of WASD.</strong> I originally mapped WASD to drive controls, which worked great in the standalone web app. Then I added the HA Lovelace card and discovered that WASD are global shortcuts in Home Assistant - W opens the search bar, and the others do their own things. Switching the primary controls to arrow keys fixed the conflict. WASD still works in the standalone web app since there&rsquo;s no HA shell to collide with.</p>
 <p><strong>Authentication on the web API.</strong> The <code>/command</code> endpoint has no auth, but since access is gated through Home Assistant (which handles its own auth), I&rsquo;m not worried about it. Direct Pi access is LAN-only anyway.</p>
 <hr>
 <h2 id="whats-next">What&rsquo;s Next</h2>
 <p>The one thing that still bugs me about the current setup is having to manually plug in the USB-C cable to charge. The robot is useful precisely when I&rsquo;m <em>not</em> home, so if the battery dies while I&rsquo;m away there&rsquo;s nothing I can do about it.</p>
-<p>I want to build a charging dock using <a href="https://amzn.to/47EhiLI">magnetic pogo pin connectors</a>. The idea is to mount the female pogo pins on the dock at a fixed position, and the matching male pins on the underside or back of the robot. When the robot drives onto the dock, the magnets pull the connectors together and charging starts automatically — no plugging in, no alignment fussing.</p>
+<p>I want to build a charging dock using <a href="https://amzn.to/47EhiLI">magnetic pogo pin connectors</a>. The idea is to mount the female pogo pins on the dock at a fixed position, and the matching male pins on the underside or back of the robot. When the robot drives onto the dock, the magnets pull the connectors together and charging starts automatically - no plugging in, no alignment fussing.</p>
 <p>The PiSugar 3 already handles the charging circuit, so the dock really just needs to deliver 5V to the right pins. The tricky part will be making the robot reliably find and align with the dock, which is probably a computer vision problem for a future weekend.</p>
 <hr>
 <h2 id="wrapping-up">Wrapping Up</h2>
-<p>The whole project took a few weekends spread over a month. Most of that time was hardware — wiring, cable management, figuring out the servo directions. The software side came together quickly once I had a working robot to test against.</p>
+<p>The whole project took a few weekends spread over a month. Most of that time was hardware - wiring, cable management, figuring out the servo directions. The software side came together quickly once I had a working robot to test against.</p>
 <p>The thing I&rsquo;m happiest about is how well it integrates with Home Assistant. Being able to drive it and watch the feed from the HA app anywhere in the world, with battery status and everything right there, is genuinely useful and not just a toy.</p>
 <p>If you build one, or do something different with the same parts, I&rsquo;d love to hear about it.</p>
 <p>Source: <strong><a href="https://github.com/arudyk/sentinel">github.com/arudyk/sentinel</a></strong></p>
@@ -475,7 +475,7 @@
             <line x1="16" y1="17" x2="8" y2="17"></line>
             <polyline points="10 9 9 9 8 9"></polyline>
           </svg>
-          2145 Words
+          2144 Words
         </p>
 
         <p>
