@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by-nc/4.0/&#39;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 19 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>/about/</guid>
+      <description>Andriy Rudyk Product Security Engineer&#xA;andriy@rudyk.me rudyk.me github.com/arudyk linkedin.com/in/andriyrudyk Work Experience Product Security Engineer IV Aug 2023 &amp;ndash; Present Intuit Credit Karma &amp;middot; Charlotte, NC Architected and built Raptor, a centralized vulnerability management and triage platform (Go/React): ingests findings from Snyk, Twistlock, Semgrep, Traceable, Data Theorem, GitHub secret scanning, and custom scanners; auto-creates and routes tickets to owning teams; provides security engineers a full manual triage and review workflow with dashboards.</description>
+    </item>
     <item>
       <title>Building Sentinel: A Home Sentry Robot with Raspberry Pi and Home Assistant</title>
       <link>/posts/building-sentinel-home-robot/</link>

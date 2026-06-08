@@ -1,3 +1,144 @@
 .logo__cursor {
   background: #008000;
 }
+
+/* ===========================================================================
+   Resume / About page
+   Theme-aware: defaults to the dark palette (site default), with light
+   overrides via [data-theme=light] and prefers-color-scheme.
+   =========================================================================== */
+:root {
+  --cv-accent: #008000;
+  --cv-bar-bg: #3b3d42;
+  --cv-muted: #b3b3bd;
+  --cv-border: #4e4e57;
+}
+
+[data-theme="light"] {
+  --cv-bar-bg: #eaeaea;
+  --cv-muted: #6b6b6b;
+  --cv-border: #dcdcdc;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --cv-bar-bg: #eaeaea;
+    --cv-muted: #6b6b6b;
+    --cv-border: #dcdcdc;
+  }
+}
+
+.cv {
+  margin-top: 1rem;
+}
+
+.cv-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--cv-border);
+}
+
+.cv-name {
+  font-size: 2.2rem;
+  line-height: 1.15;
+  margin: 0 0 0.2rem;
+}
+
+.cv-role-title {
+  margin: 0 0 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--cv-accent);
+}
+
+.cv-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
+}
+
+.cv-contact a {
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.cv-contact a:hover {
+  border-bottom-color: var(--cv-accent);
+}
+
+.cv-section {
+  display: block;
+  margin: 2.2rem 0 1.1rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  background: var(--cv-bar-bg);
+  border-left: 4px solid var(--cv-accent);
+  border-radius: 3px;
+}
+
+.cv-item {
+  margin-bottom: 1.5rem;
+}
+
+.cv-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.1rem 1rem;
+}
+
+.cv-job {
+  font-weight: 700;
+}
+
+.cv-dates {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  color: var(--cv-muted);
+  white-space: nowrap;
+}
+
+.cv-org {
+  margin: 0.15rem 0 0.5rem;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--cv-muted);
+}
+
+.cv-item ul,
+.cv-skills {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.cv-item li,
+.cv-skills li {
+  margin: 0.3rem 0;
+}
+
+.cv-skills {
+  list-style: none;
+  padding-left: 0;
+}
+
+.cv-skills li {
+  margin: 0.55rem 0;
+}
+
+@media (max-width: 684px) {
+  .cv-name {
+    font-size: 1.8rem;
+  }
+  .cv-dates {
+    flex-basis: 100%;
+  }
+}
