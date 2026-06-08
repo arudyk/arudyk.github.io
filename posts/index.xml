@@ -6,8 +6,94 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by-nc/4.0/&#39;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Wed, 22 Apr 2026 20:18:31 -0400</lastBuildDate>
+        <lastBuildDate>Mon, 08 Jun 2026 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        <item>
+            <title>Building Sentinel a Charging Dock: Pogo Pins, Copper Plates, and a Robot That Bounces Off</title>
+            <link>/posts/sentinel-charging-dock/</link>
+            <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/sentinel-charging-dock/</guid>
+            <description>At the end of my last post on Sentinel I left myself a homework assignment. The robot is useful precisely when I&amp;rsquo;m not home, so having to manually plug in the USB-C cable to charge it kind of defeats the whole point. If the battery dies while I&amp;rsquo;m away, there&amp;rsquo;s nothing I can do about it. I said I wanted to build a charging dock so Sentinel could top itself up without me touching a cable.</description>
+            <content type="html"><![CDATA[<p>At the end of my <a href="/posts/building-sentinel-home-robot/">last post on Sentinel</a> I left myself a homework assignment. The robot is useful precisely when I&rsquo;m <em>not</em> home, so having to manually plug in the USB-C cable to charge it kind of defeats the whole point. If the battery dies while I&rsquo;m away, there&rsquo;s nothing I can do about it. I said I wanted to build a charging dock so Sentinel could top itself up without me touching a cable.</p>
+<p>This is the post where I actually do that. It &ldquo;kinda&rdquo; works - which is to say it charges, but not as reliably as I&rsquo;d hoped. Here&rsquo;s how I built it, what I got wrong, and where I&rsquo;m taking it next.</p>
+<p>The full source is still on GitHub: <strong><a href="https://github.com/arudyk/sentinel">github.com/arudyk/sentinel</a></strong></p>
+<hr>
+<h2 id="the-idea">The Idea</h2>
+<p>The constraint that shapes everything here: the Pi Zero 2 W charges over a USB-C port (through the PiSugar 3), and I didn&rsquo;t want to modify the Pi or the battery HAT at all. Whatever I built had to deliver 5V into that existing USB-C port without me re-soldering anything on the robot itself.</p>
+<p>So the plan came together as two halves:</p>
+<ul>
+<li><strong>On the robot:</strong> a 3D-printed adapter that plugs into the Pi&rsquo;s USB-C port and carries spring-loaded <strong>pogo pins</strong> sticking out the front.</li>
+<li><strong>On the dock:</strong> a 3D-printed base with two <strong>copper contact plates</strong>, wired to a 5V supply, positioned so that when the robot drives into the dock, the pogo pins press against the copper.</li>
+</ul>
+<p>Drive in, pins touch copper, charging starts. No plugging in, no alignment fussing. That was the theory, anyway.</p>
+<hr>
+<h2 id="the-parts">The Parts</h2>
+<p>I tried to keep this cheap and use stuff I could get in a couple of days:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pogo pins (P125-D spring test probes, 2.0mm big round head)</td>
+<td><a href="https://amzn.to/4umHLpy">Amazon</a></td>
+</tr>
+<tr>
+<td>Pure copper anode sheet (99.995%, 1mm x 25mm x 150mm)</td>
+<td><a href="https://amzn.to/4vAz8J2">Amazon</a></td>
+</tr>
+<tr>
+<td>Solderless USB-C screw-terminal breakout</td>
+<td><a href="https://amzn.to/4ewcyvq">Amazon</a></td>
+</tr>
+<tr>
+<td>An old USB charger I was willing to sacrifice</td>
+<td>(from the junk drawer)</td>
+</tr>
+</tbody>
+</table>
+<p>The pogo pins are the heart of this. They&rsquo;re spring-loaded test probes normally used for bed-of-nails PCB testing - a sprung plunger with a rounded head that maintains contact pressure even if the alignment isn&rsquo;t perfect. That self-correcting contact pressure is exactly what I wanted for a dock, where the robot is never going to stop in precisely the same spot twice.</p>
+<hr>
+<h2 id="the-robot-side-adapter">The Robot-Side Adapter</h2>
+<p>The robot side needed an adapter that presents two pogo pins out the front of the robot at a known, fixed position - so I can just drive forward, looking ahead, straight into the dock. I modeled the housing in FreeCAD, with channels to seat and hold the pogo pins. The adapter itself doesn&rsquo;t house any of the USB electronics; it just locates the pins, and wires run back from them to the Pi Zero&rsquo;s USB-C port at the rear of the robot.</p>
+<p><img alt="Robot charging adapter modeled in FreeCAD" src="/img/sentinel-charger-adapter-freecad.png"></p>
+<p>For the actual USB-C connection I used a <a href="https://amzn.to/4ewcyvq">solderless Type-C screw-terminal breakout</a>. This was a nice find - it&rsquo;s a little PCB with a USB-C male plug on one end and screw terminals on the other, so I could wire the pogo pins straight to the 5V and GND terminals without trying to solder onto the impossibly tiny pads of a bare USB-C connector. The breakout plugs into the Pi&rsquo;s port at the rear, the wires from the front pogo pins screw into its terminals, and that&rsquo;s the whole robot side.</p>
+<p><img alt="Robot-side adapter with pogo pins and copper pad" src="/img/sentinel-robot-pogo-adapter.jpeg"></p>
+<hr>
+<h2 id="the-dock-side">The Dock Side</h2>
+<p>The dock is a printed base with an angled front face that the robot drives into. I sliced it in Orca Slicer - it&rsquo;s a chunky single piece with two pockets in the front for the copper contacts.</p>
+<p><img alt="Dock base sliced in Orca Slicer" src="/img/sentinel-dock-orca-slicer.png"></p>
+<p>For the contacts I took the <a href="https://amzn.to/4vAz8J2">pure copper anode sheet</a> (it ships as long 25mm x 150mm strips) and cut it down into two small squares. Copper because it&rsquo;s a great conductor, takes solder easily, and doesn&rsquo;t oxidize as aggressively as some cheaper plated contacts would.</p>
+<p>For the power, I did the time-honored hardware-hacker thing and <strong>dissected an old USB charger</strong>. I cracked it open, found the 5V and ground on the output side, and soldered those leads directly to the two copper plates. So the dock is, electrically, just a wall charger with its USB port replaced by two copper squares.</p>
+<p><img alt="Dock with copper contact plates and dissected charger" src="/img/sentinel-dock-copper-contacts.jpeg"></p>
+<p>When the robot drives in, the two pogo pins on the adapter line up with the two copper plates on the dock. Pin one carries 5V, pin two is ground, and the PiSugar 3 takes it from there.</p>
+<p><img alt="Sentinel docking - pogo pins meeting the copper plates" src="/img/sentinel-dock-docking.jpeg"></p>
+<hr>
+<h2 id="what-went-wrong">What Went Wrong</h2>
+<p>Here&rsquo;s the honest part: it charges, but it isn&rsquo;t reliable.</p>
+<p>The problem is the pogo pins themselves - specifically, there&rsquo;s <strong>too much spring resistance</strong>. These are stiff little springs, and there are two of them. When the robot drives into the dock, instead of the pins compressing smoothly and holding contact, the combined spring force pushes <em>back</em> hard enough that the robot <strong>bounces off</strong> the dock. The tracks don&rsquo;t have enough grip and weight to hold Sentinel pressed against that much spring tension, so it creeps backward, the pins lose contact, and charging cuts out.</p>
+<p>So I&rsquo;m in this annoying spot where if I nudge the robot in by hand and hold it, it charges perfectly - the electrical path is fine. But left to dock itself, the very springs that were supposed to <em>guarantee</em> good contact are what break it. The thing that was meant to be the clever part of the design is the part that doesn&rsquo;t work.</p>
+<p>A few things I think are going on:</p>
+<ul>
+<li><strong>Two stiff pins is too much force.</strong> The spring rate on these P125-D probes is fine for one pin holding a PCB down, but doubled up and fighting a lightweight tracked robot, it&rsquo;s enough to win.</li>
+<li><strong>The tracks don&rsquo;t anchor.</strong> Sentinel is light and the tracks slip on a hard floor, so it can&rsquo;t hold itself against the spring load. A heavier robot, or a dock that physically captures the robot, would mask the problem - but that&rsquo;s papering over the real issue.</li>
+<li><strong>No latch.</strong> There&rsquo;s nothing holding the robot <em>into</em> the dock. The only thing fighting the spring is the motors stalled forward, which isn&rsquo;t a great long-term plan.</li>
+</ul>
+<hr>
+<h2 id="whats-next">What&rsquo;s Next</h2>
+<p>I&rsquo;m not going to pretend this one landed. It&rsquo;s a working proof that the contact scheme is sound - 5V gets where it needs to go - but &ldquo;drive in and hope it doesn&rsquo;t bounce&rdquo; isn&rsquo;t the seamless self-docking I was after.</p>
+<p>The good news is the fix has been staring at me the whole time. The reason the robot bounces off is that nothing holds it <em>into</em> the dock against the spring. So the next version is going to add something that pulls the robot in and keeps it there, quietly canceling out the pogo pins&rsquo; push - and I think a couple of well-placed <strong>magnets</strong> are about to make this whole bouncing problem disappear.</p>
+<p>More on that in the next post.</p>
+<p>Source: <strong><a href="https://github.com/arudyk/sentinel">github.com/arudyk/sentinel</a></strong></p>
+]]></content>
+        </item>
+        
         
         
         <item>
