@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://rudyk.me/sitemap.xml
