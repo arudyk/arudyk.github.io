@@ -6,8 +6,144 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by-nc/4.0/&#39;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Mon, 08 Jun 2026 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Mon, 22 Jun 2026 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://rudyk.me/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        <item>
+            <title>Building a Home Server: Home Assistant, Z-Wave, and Complete Control</title>
+            <link>https://rudyk.me/posts/building-home-server/</link>
+            <pubDate>Mon, 22 Jun 2026 00:00:00 +0000</pubDate>
+            
+            <guid>https://rudyk.me/posts/building-home-server/</guid>
+            <description>A few months ago my Abode subscription renewal came up. I looked at the annual charge and asked a simple question: what am I actually paying for here?
+The answer was a SaaS solution I couldn&amp;rsquo;t expand. All the sensors were Z-Wave (an open standard), but the hub itself was a black box. Abode supported Z-Wave devices, sure. But the way they interacted was locked down. Want to add a geiger counter and log the values?</description>
+            <content type="html"><![CDATA[<p>A few months ago my Abode subscription renewal came up. I looked at the annual charge and asked a simple question: what am I actually paying for here?</p>
+<p>The answer was a SaaS solution I couldn&rsquo;t expand. All the sensors were Z-Wave (an open standard), but the hub itself was a black box. Abode supported Z-Wave devices, sure. But the way they interacted was locked down. Want to add a geiger counter and log the values? You can add Z-Wave devices, but only the ones Abode decided to support, and only in the ways Abode&rsquo;s software allowed. The automation logic was entirely theirs, and I had no control over it. I was paying for someone else&rsquo;s vision of what a home should be, and I couldn&rsquo;t modify it.</p>
+<p>I&rsquo;d already been running Home Assistant on another box for a while and realized I could just replace the whole thing. Moving to a new house seemed like the right moment to start fresh. Build a home server that does everything Abode did, plus everything else I could think of. DNS filtering. Offline Wikipedia. Geiger counter. Fire alarm monitoring. Garage control. Media streaming. All running locally on a single Raspberry Pi 5 in the closet. One deployment script, one box, full control.</p>
+<p>That&rsquo;s what this post is about. Building a system where I own the hardware, control the software, and don&rsquo;t pay anyone a monthly fee. If I want to add something, I add it. If I want to change something, I change it. Those decisions are mine.</p>
+<hr>
+<h2 id="the-hardware">The Hardware</h2>
+<p>I wanted this built to last from day one, so I went with the Pi 5 and proper storage instead of trying to cheap out.</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raspberry Pi 5 (16 GB)</td>
+<td><a href="https://amzn.to/4gztL8L">https://amzn.to/4gztL8L</a></td>
+</tr>
+<tr>
+<td>Argon ONE V3 M.2 NVME PCIe Case</td>
+<td><a href="https://amzn.to/4b3zW1b">https://amzn.to/4b3zW1b</a></td>
+</tr>
+<tr>
+<td>AEOTEC Z-Stick Gen5 Z-Wave Hub</td>
+<td><a href="https://amzn.to/4en0I6W">https://amzn.to/4en0I6W</a></td>
+</tr>
+<tr>
+<td>Zooz ZEN16 MultiRelay (garage doors)</td>
+<td><a href="https://amzn.to/43RQgON">https://amzn.to/43RQgON</a></td>
+</tr>
+<tr>
+<td>Zooz ZEN55 DC Signal Sensor (fire alarm)</td>
+<td><a href="https://amzn.to/4oEPyOi">https://amzn.to/4oEPyOi</a></td>
+</tr>
+<tr>
+<td>GQ GMC-320 Geiger Counter</td>
+<td><a href="https://amzn.to/4vp1fv7">https://amzn.to/4vp1fv7</a></td>
+</tr>
+<tr>
+<td>Amazon Basics UPS 600VA/360W</td>
+<td><a href="https://amzn.to/4vzMBRR">https://amzn.to/4vzMBRR</a></td>
+</tr>
+</tbody>
+</table>
+<p>The Argon ONE case was the key buy here. Home Assistant writes state changes to disk constantly, and an SD card will burn out in a few months under that load. The case comes with an M.2 NVMe slot, so I threw in a 500GB SSD and the Pi 5 reads/writes directly to that instead. The case also handles active cooling with an onboard temperature sensor and fan, so the Pi doesn&rsquo;t throttle in the summer. That mattered more than I expected.</p>
+<h3 id="booting-from-the-ssd">Booting from the SSD</h3>
+<p>The Pi 5 will boot from USB by default if the SD card isn&rsquo;t present, but to make the SSD the primary drive I followed this process:</p>
+<ol>
+<li>Install Home Assistant normally on the SD card as usual.</li>
+<li>Copy the entire SD card filesystem to the SSD using <code>rsync</code> from a connected USB reader or another machine.</li>
+<li>Edit the boot EEPROM settings on the Pi to prioritize NVMe boot. On the running system, run <code>sudo rpi-eeprom-config --edit</code> and add or modify the boot order lines to try the NVMe first.</li>
+<li>Once you&rsquo;ve confirmed the Pi boots from the SSD, you can safely remove the SD card.</li>
+</ol>
+<p>The exact steps depend on whether you want the SD card as a fallback (keep it in) or want to remove it entirely. The EEPROM editing is where the boot order gets set, so without that step the Pi will keep trying the SD card first even if it&rsquo;s present.</p>
+<p>This setup means the entire home server lives on fast NVMe storage instead of the slower SD card. State changes are instant, and you don&rsquo;t have to worry about wearing out the card with constant writes.</p>
+<h3 id="the-power-draw-gotcha">The Power Draw Gotcha</h3>
+<p>Here&rsquo;s something that bit me on first deployment. When Docker Compose starts all the containers at once, anything that depends on a USB device (Z-Wave stick, Geiger counter, etc.) will fail immediately. The system logs show this clearly:</p>
+<pre tabindex="0"><code>error=&#34;error gathering device information while adding custom device \&#34;/dev/serial/by-id/usb-0658_0200-if00\&#34;: no such file or directory&#34;
+</code></pre><p>The problem: the Raspberry Pi 5 doesn&rsquo;t have enough power delivery to initialize all the USB devices simultaneously. They&rsquo;re all trying to power on at the same time, and the power budget can&rsquo;t handle it. The devices exist, but they&rsquo;re not enumerated yet.</p>
+<p>The fix is simple. Set the containers that depend on physical devices to restart on failure with a delay:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">restart</span>: <span style="color:#66d9ef">on</span>-<span style="color:#ae81ff">failure:10</span>
+</span></span></code></pre></div><p>This tells Docker to retry up to 10 times before giving up. By the second or third retry (a few seconds later), the USB devices have finished powering up and enumerating themselves, and the containers start cleanly. The same applies to any container that depends on external hardware: Z-Wave JS UI, GMC-300 Geiger counter, anything that mounts an external SSD via USB-C.</p>
+<p>It&rsquo;s not elegant, but it works. The system boots, the containers fail once or twice while devices initialize, and then everything comes up and stays up.</p>
+<h3 id="physical-setup-wooden-box-on-the-wall">Physical Setup: Wooden Box on the Wall</h3>
+<p>Everything lives in a <a href="https://amzn.to/4oIqu95">Fullin Upgrade WiFi Router Storage Box</a> mounted to the closet wall. It&rsquo;s a wooden enclosure with ventilation holes that keeps the Pi, Z-Wave stick, UPS, and power cables out of sight. The router sits on top for easy access. It looks like furniture instead of a mess of hardware, which was the whole point.</p>
+<p><img alt="Closet setup with wooden enclosure holding the home server stack" src="/img/closet-setup.jpg"></p>
+<hr>
+<h2 id="z-wave-the-old-sensors-just-work">Z-Wave: The Old Sensors Just Work</h2>
+<p>The best part of this transition? Every Z-Wave sensor from my old Abode setup paired with the AEOTEC stick without issue. Door sensors, window sensors, motion sensors. All of them. Z-Wave is an open standard, and Home Assistant&rsquo;s Z-Wave JS UI speaks it natively.</p>
+<p>The AEOTEC Z-Stick Gen5 is a simple USB dongle that runs as a container in Docker. It connects to a coordinator, generates network keys on first setup, and then every sensor on the Abode network just appears in HA as entities you can automate against. No vendor lock-in, no cloud login needed. Just local wireless devices on a local hub.</p>
+<p>That alone would have been worth the switch, but I wanted to expand on what Abode gave me, not just replace it 1:1.</p>
+<hr>
+<h2 id="the-new-z-wave-gear">The New Z-Wave Gear</h2>
+<h3 id="garage-doors-with-zen16">Garage Doors with ZEN16</h3>
+<p>The Zooz ZEN16 is a 3-relay module that fits in a small box and talks Z-Wave. It&rsquo;s wired in parallel to my existing garage door button (the one on the wall). When HA tells it to activate relay 1, the ZEN16 closes a dry contact for 500 milliseconds, just like pressing the button. The motor opener doesn&rsquo;t care what closed it.</p>
+<p>It&rsquo;s the 800 LR (Long Range) model, which means better range through walls and obstacles than the older 700 series. In a typical suburban house that mattered, especially in corners far from the hub.</p>
+<h3 id="fire-alarm-monitoring-with-zen55">Fire Alarm Monitoring with ZEN55</h3>
+<p>A dumb smoke detector just sits there beeping when there&rsquo;s smoke. If you&rsquo;re home, great. If you&rsquo;re away, you find out when you get back. Abode had a noise sensor that would listen for the alarm&rsquo;s beep and send an alert, which worked fine, but I wanted something more reliable that didn&rsquo;t depend on audio detection.</p>
+<p>The Zooz ZEN55 is a DC signal sensor. Wire it in parallel to the smoke detector&rsquo;s 9V line, and it detects when the alarm triggers, sending a Z-Wave event to HA. Push notifications to my phone, sirens to other speakers, whatever. All of it runs entirely local. Now if there&rsquo;s smoke while I&rsquo;m away, I get notified immediately.</p>
+<hr>
+<h2 id="everything-else-the-full-stack">Everything Else: The Full Stack</h2>
+<p>The Raspberry Pi doesn&rsquo;t just run Home Assistant. It runs the entire smart home stack in Docker Compose, which means a single deployment script brings up a dozen services. Here&rsquo;s the core setup:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">pihole</span>:        <span style="color:#75715e"># Network-wide ad blocking and DNS</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">homeassistant</span>: <span style="color:#75715e"># Home automation hub</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">zwave-js-ui</span>:   <span style="color:#75715e"># Z-Wave device management</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">caddy</span>:         <span style="color:#75715e"># HTTPS reverse proxy</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">gmc300</span>:        <span style="color:#75715e"># Geiger counter integration</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sentinel:      # Home sentry robot (see</span>: <span style="color:#ae81ff">Building Sentinel blog post)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kiwix</span>:         <span style="color:#75715e"># Offline Wikipedia</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">maps</span>:          <span style="color:#75715e"># Offline maps (OpenStreetMap)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">plex</span>:          <span style="color:#75715e"># Media server</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ddns</span>:          <span style="color:#75715e"># Dynamic DNS updater</span>
+</span></span></code></pre></div><h3 id="google-nest-cameras">Google Nest Cameras</h3>
+<p>Google Nest cameras integrate natively into Home Assistant. The Nest integration pulls live streams and motion events from your cameras without any hacks or RTSP tunneling. They show up as first-class HA entities, so I can trigger automations off motion detection, embed the streams in dashboards, everything.</p>
+<p>It&rsquo;s not local (Nest cameras phone home to Google), but it&rsquo;s seamless to set up. No extra software, no configuration files. Just add the integration, authenticate once, and the cameras appear.</p>
+<h3 id="pi-hole-for-dns-level-ad-blocking">Pi-hole for DNS-Level Ad Blocking</h3>
+<p>Pi-hole sits between your home network and the internet as the DNS server. Every device on the network that uses it gets network-wide ad blocking, tracker blocking, and the ability to see exactly what domains every device is trying to reach. It&rsquo;s the kind of thing Abode never did but should be standard on every home network.</p>
+<p><img alt="Pi-hole dashboard showing DNS queries, blocked queries, and client activity" src="/img/pihole-dashboard.png"></p>
+<h3 id="offline-wikipedia-and-maps">Offline Wikipedia and Maps</h3>
+<p>The same server runs Kiwix (offline Wikipedia archives) and a custom offline map viewer with US and Europe tiles. It&rsquo;s admittedly paranoid, but when the zombie apocalypse hits and you need to find the closest warehouse with supplies, Google Maps might not be available. So you&rsquo;ve got OSM tiles cached locally plus a web UI I wrote that lets you search, view, and measure distances on the map. All running offline. Free to add, so why not.</p>
+<p><img alt="Offline map viewer with distance measurement tool" src="/img/offline-maps.png"></p>
+<h3 id="plex-for-media">Plex for Media</h3>
+<p>If you have an external SSD with movies and shows, Plex turns it into a media server. Streams locally on the home network, or securely to other devices. The Pi 5 handles transcoding without sweating, though realistically you&rsquo;re limited to a device or two transcoding at the same time.</p>
+<h3 id="the-geiger-counter-because-why-not">The Geiger Counter (Because Why Not)</h3>
+<p>The same Pi also runs the GMC-320 integration. Every 60 seconds it reads radiation levels from a USB Geiger counter and pushes the values into HA via REST. Not strictly a security feature, but it lives in the same Docker Compose stack for free once the server is running. Why not have one more data point about the environment?</p>
+<hr>
+<h2 id="power-backup-the-ups">Power Backup: The UPS</h2>
+<p>The Amazon Basics 600VA UPS sits under my home router and the Pi box. If the power goes out, both devices stay online for a few minutes. Ideally long enough for me to know something&rsquo;s wrong and take action.</p>
+<p>Here&rsquo;s the honest part: it gives enough runtime to keep things online for a while. Not hours, but enough to catch alerts and know something happened. In an industrial setting this would be laughable, but for home backup it&rsquo;s fine for now. It&rsquo;s on my upgrade list when I want to stretch that window longer.</p>
+<hr>
+<h2 id="what-i-dont-have-yet">What I Don&rsquo;t Have Yet</h2>
+<p>Two things Abode had that I&rsquo;m still chasing.</p>
+<p><strong>Longer UPS runtime.</strong> The 600VA buys minutes. A real 1-2 hour backup would take an APC or CyberPower unit that costs several hundred dollars. I&rsquo;ll get there, but it wasn&rsquo;t critical for the first cut.</p>
+<p><strong>Cellular backup.</strong> Abode had LTE fallback. If your router went down or someone cut the cable line, the hub stayed connected over LTE and you still got alerts. That&rsquo;s the one feature I haven&rsquo;t replicated yet. Adding a cellular data modem as a second WAN interface would close that gap completely. I&rsquo;m still researching the options.</p>
+<hr>
+<h2 id="whats-next">What&rsquo;s Next</h2>
+<p>First upgrade: a beefier UPS. Probably APC, probably the kind with 1-2 hours of runtime.</p>
+<p>Second: cellular backup. Looking at adding a simple LTE dongle with failover so the hub stays connected even if my home internet dies.</p>
+<p>Third: find a replacement for the Google Nest cameras. They work great with HA, but they phone home to Google. There are local alternatives (Frigate with RTSP cameras, local ONVIF devices) but they don&rsquo;t integrate as smoothly. The gap is worth closing.</p>
+<p>Beyond that, a local voice assistant running on the same Pi would be nice. Alexa integration exists, but a voice assistant that runs entirely local and answers to your home, not Amazon&rsquo;s data center, is worth building.</p>
+<p>Source: <a href="https://github.com/arudyk/argon">github.com/arudyk/argon</a></p>
+]]></content>
+        </item>
+        
         
         
         <item>

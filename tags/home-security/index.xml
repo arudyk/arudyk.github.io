@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Home-Assistant on Andriy Rudyk</title>
-    <link>https://rudyk.me/tags/home-assistant/</link>
-    <description>Recent content in Home-Assistant on Andriy Rudyk</description>
+    <title>Home-Security on Andriy Rudyk</title>
+    <link>https://rudyk.me/tags/home-security/</link>
+    <description>Recent content in Home-Security on Andriy Rudyk</description>
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by-nc/4.0/&#39;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Mon, 22 Jun 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://rudyk.me/tags/home-assistant/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rudyk.me/tags/home-security/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building a Home Server: Home Assistant, Z-Wave, and Complete Control</title>
       <link>https://rudyk.me/posts/building-home-server/</link>
       <pubDate>Mon, 22 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://rudyk.me/posts/building-home-server/</guid>
       <description>A few months ago my Abode subscription renewal came up. I looked at the annual charge and asked a simple question: what am I actually paying for here?&#xA;The answer was a SaaS solution I couldn&amp;rsquo;t expand. All the sensors were Z-Wave (an open standard), but the hub itself was a black box. Abode supported Z-Wave devices, sure. But the way they interacted was locked down. Want to add a geiger counter and log the values?</description>
-    </item>
-    <item>
-      <title>Building Sentinel: A Home Sentry Robot with Raspberry Pi and Home Assistant</title>
-      <link>https://rudyk.me/posts/building-sentinel-home-robot/</link>
-      <pubDate>Thu, 19 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://rudyk.me/posts/building-sentinel-home-robot/</guid>
-      <description>A few months ago I had this itch I couldn&amp;rsquo;t quite scratch: I wanted a way to check in on my house remotely - specifically to keep an eye on my dogs while I was away. A static camera only covers one spot, and dogs don&amp;rsquo;t stay in one spot. I wanted something that could move. Something I could drive around from my phone and point the camera wherever I needed.</description>
     </item>
   </channel>
 </rss>
